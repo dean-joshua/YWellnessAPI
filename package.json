@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "An api designed for a ywellness website. All data pertaining to the website is stored here.",
   "main": "server.js",
+  "engines": {
+    "node": "16.15.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
