@@ -1,0 +1,137 @@
+// LOCALHOST
+
+// Products
+### GET all
+GET http://localhost:3000/products
+### GET contact by id
+GET http://localhost:3000/products/6467e22f19171829de825297
+### POST new contact
+POST http://localhost:3000/products/ HTTP/1.1
+content-type: application/json
+
+{
+  "productName": "Example Name",
+  "productDescription": "lorem ipsum...",
+  "productCost": "$99.99",
+  "productTier": "Premium"
+}
+
+// Blog Posts
+### GET all
+GET http://localhost:3000/blogposts
+### GET contact by id
+GET http://localhost:3000/blogposts/6467e18919171829de825294
+### POST new contact
+POST http://localhost:3000/blogposts/ HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Example Title",
+  "creationDate": "01/01/0001",
+  "sections": [
+    {
+      "heading": "Example heading",
+      "paragraphs": [
+        "lorem ipsum"
+      ]
+    }
+  ],
+  "comments": [
+    {
+      "commentDate": "01/01/2001",
+      "commentBody": "lorem ipsum..."
+    }
+  ]
+}
+
+// Site Data
+### GET all
+GET http://localhost:3000/siteData
+### GET contact by id
+GET http://localhost:3000/siteData/6467e3f919171829de82529e
+### POST new contact
+POST http://localhost:3000/siteData/ HTTP/1.1
+content-type: application/json
+
+{
+  "pageName": "contact",
+  "pageDescription": "lorem ipsum..",
+  "content": {
+    "professionalName": "Example Name",
+    "education": "Example School",
+    "certification": "Example Cert",
+    "background": "lorem ipsum...",
+    "schooling": "lorem ipsum...",
+    "experience": "lorem ipsum...",
+    "mission": "lorem ipsum..."
+  }
+}
+
+// PRODUCTION Deploy
+
+// Products
+### GET all
+GET http://localhost:3000/products
+### GET contact by id
+GET http://localhost:3000/products/6467e22f19171829de825297
+### POST new contact
+POST http://localhost:3000/products/ HTTP/1.1
+content-type: application/json
+
+{
+  "productName": "Example Name",
+  "productDescription": "lorem ipsum...",
+  "productCost": "$99.99",
+  "productTier": "Premium"
+}
+
+// Blog Posts
+### GET all
+GET http://localhost:3000/blogposts
+### GET contact by id
+GET http://localhost:3000/blogposts/6467e18919171829de825294
+### POST new contact
+POST http://localhost:3000/blogposts/ HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Example Title",
+  "creationDate": "01/01/0001",
+  "sections": [
+    {
+      "heading": "Example heading",
+      "paragraphs": [
+        "lorem ipsum"
+      ]
+    }
+  ],
+  "comments": [
+    {
+      "commentDate": "01/01/2001",
+      "commentBody": "lorem ipsum..."
+    }
+  ]
+}
+
+// Site Data
+### GET all
+GET http://localhost:3000/siteData
+### GET contact by id
+GET http://localhost:3000/siteData/6467e3f919171829de82529e
+### POST new contact
+POST http://localhost:3000/siteData/ HTTP/1.1
+content-type: application/json
+
+{
+  "pageName": "contact",
+  "pageDescription": "lorem ipsum..",
+  "content": {
+    "professionalName": "Example Name",
+    "education": "Example School",
+    "certification": "Example Cert",
+    "background": "lorem ipsum...",
+    "schooling": "lorem ipsum...",
+    "experience": "lorem ipsum...",
+    "mission": "lorem ipsum..."
+  }
+}
