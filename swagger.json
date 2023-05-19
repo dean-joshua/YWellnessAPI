@@ -5,7 +5,7 @@
     "description": "An API designed for the YWellness website",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "ywellness-api-service.onrender.com",
   "basePath": "/",
   "schemes": [
     "http",
