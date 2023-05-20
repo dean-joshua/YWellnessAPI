@@ -55,10 +55,60 @@ async function addProduct(req, res) {
   }
 }
 
+// UPDATE an existing document
+async function updateProduct(req, res) {
+  try {
+    await client.connect();
+    const db = client.db();
+    const productId = new ObjectId(req.params.id);
+    const collection = db.collection('products');
+    const newDocument = {
+      //Create a new json object
+      productName: req.body.productName,
+      productDescription: req.body.productDescription,
+      productCost: req.body.productCost,
+      productTier: req.body.productTier,
+    };
+    const response = await collection.replaceOne(
+      { _id: productId },
+      newDocument
+    );
+    console.log(response);
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      throw new Error('Document was not able to be updated');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json('Error updating a product');
+  }
+}
+
+// DELETE an existing document
+async function removeProduct(req, res) {
+  try {
+    await client.connect();
+    const db = client.db();
+    const productId = new ObjectId(req.params.id);
+    const collection = db.collection('products');
+    const response = await collection.deleteOne({ _id: productId }, true);
+    console.log(response);
+    if (response.deletedCount > 0) {
+      res.status(200).send();
+    } else {
+      throw new Error('Document was not able to be deleted');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting product');
+  }
+}
+
 module.exports = {
   getProducts,
   getProduct,
   addProduct,
-  // updateProduct,
-  // removeProduct,
+  updateProduct,
+  removeProduct,
 };

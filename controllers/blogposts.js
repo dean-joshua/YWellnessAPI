@@ -24,13 +24,13 @@ async function getBlogpost(req, res) {
     const collection = db.collection('blogposts');
     const blogpost = await collection.findOne({ _id: blogpostId });
     if (!blogpost) {
-      res.status(404).send('Blogpost not found');
+      res.status(404).send('Blog post not found');
       return;
     }
     res.json(blogpost);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error retrieving blogpost by Id');
+    res.status(500).send('Error retrieving blog post by Id');
   }
 }
 
@@ -51,7 +51,57 @@ async function addBlogpost(req, res) {
     res.status(201).json(response);
   } catch (err) {
     console.error(err);
-    res.status(500).json('Error creating a new blogpost');
+    res.status(500).json('Error creating a new blog post');
+  }
+}
+
+// UPDATE an existing document
+async function updateBlogpost(req, res) {
+  try {
+    await client.connect();
+    const db = client.db();
+    const blogpostId = new ObjectId(req.params.id);
+    const collection = db.collection('blogposts');
+    const newDocument = {
+      //Create a new json object
+      title: req.body.title,
+      creationDate: req.body.creationDate,
+      sections: req.body.sections,
+      comments: req.body.comments,
+    };
+    const response = await collection.replaceOne(
+      { _id: blogpostId },
+      newDocument
+    );
+    console.log(response);
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      throw new Error('Document was not able to be updated');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json('Error updating a blog post');
+  }
+}
+
+// DELETE an existing document
+async function removeBlogpost(req, res) {
+  try {
+    await client.connect();
+    const db = client.db();
+    const blogpostId = new ObjectId(req.params.id);
+    const collection = db.collection('blogposts');
+    const response = await collection.deleteOne({ _id: blogpostId }, true);
+    console.log(response);
+    if (response.deletedCount > 0) {
+      res.status(200).send();
+    } else {
+      throw new Error('Document was not able to be deleted');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting blog post');
   }
 }
 
@@ -59,6 +109,6 @@ module.exports = {
   getBlogposts,
   getBlogpost,
   addBlogpost,
-  // updateBlogpost,
-  // removeBlogpost,
+  updateBlogpost,
+  removeBlogpost,
 };

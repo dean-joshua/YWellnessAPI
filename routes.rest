@@ -15,6 +15,18 @@ content-type: application/json
   "productCost": "$99.99",
   "productTier": "Premium"
 }
+### Update contact by id
+PUT http://localhost:3000/products/6467e22f19171829de825297 HTTP/1.1
+content-type: application/json
+
+{
+  "productName": "Example Name",
+  "productDescription": "lorem ipsum...",
+  "productCost": "$99.99",
+  "productTier": "Premium"
+}
+### Delete contact by id
+DELETE http://localhost:3000/products/6467e22f19171829de825297 HTTP/1.1
 
 // Blog Posts
 ### GET all
@@ -43,6 +55,30 @@ content-type: application/json
     }
   ]
 }
+### Update contact by id
+PUT http://localhost:3000/contacts/6467e18919171829de825294 HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Example Title",
+  "creationDate": "01/01/0001",
+  "sections": [
+    {
+      "heading": "Example heading",
+      "paragraphs": [
+        "lorem ipsum"
+      ]
+    }
+  ],
+  "comments": [
+    {
+      "commentDate": "01/01/2001",
+      "commentBody": "lorem ipsum..."
+    }
+  ]
+}
+### Delete contact by id
+DELETE http://localhost:3000/contacts/6467e18919171829de825294 HTTP/1.1
 
 // Site Data
 ### GET all
