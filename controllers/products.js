@@ -71,7 +71,7 @@ async function updateProduct(req, res) {
       return;
     }
 
-    res.status(200).json(product);
+    res.status(204).json(product);
   } catch (error) {
     res.status(500).json({ error: 'Error updating product' });
   }

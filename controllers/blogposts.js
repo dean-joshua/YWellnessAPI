@@ -72,7 +72,7 @@ async function updateBlogPost(req, res) {
       return;
     }
 
-    res.status(200).json(blogPost);
+    res.status(204).json(blogPost);
   } catch (error) {
     res.status(500).json({ error: 'Error updating blog post' });
   }
