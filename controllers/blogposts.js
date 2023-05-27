@@ -61,6 +61,21 @@ async function updateBlogPost(req, res) {
       comments: req.body.comments,
     };
 
+    // Additional validation for sections and comments
+    if (
+      !Array.isArray(updatedBlogPost.sections) ||
+      !updatedBlogPost.sections.every((section) => typeof section === 'object')
+    ) {
+      throw new Error('Sections must be an array of objects');
+    }
+
+    if (
+      !Array.isArray(updatedBlogPost.comments) ||
+      !updatedBlogPost.comments.every((comment) => typeof comment === 'object')
+    ) {
+      throw new Error('Comments must be an array of objects');
+    }
+
     const blogPost = await BlogPost.findByIdAndUpdate(
       blogPostId,
       updatedBlogPost,
@@ -74,7 +89,9 @@ async function updateBlogPost(req, res) {
 
     res.status(204).json(blogPost);
   } catch (error) {
-    res.status(500).json({ error: 'Error updating blog post' });
+    res
+      .status(500)
+      .json({ error: 'Error updating blog post', message: error.message });
   }
 }
 
