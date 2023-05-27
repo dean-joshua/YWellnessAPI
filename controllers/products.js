@@ -1,114 +1,103 @@
-const client = require('../db/connection.js');
-const { ObjectId } = require('mongodb');
+const Product = require('../models/product');
 
-// READ all documents
-async function getProducts(req, res) {
+// Get all products
+async function getAllProducts(req, res) {
   try {
-    await client.connect();
-    const db = client.db();
-    const collection = db.collection('products');
-    const products = await collection.find().toArray();
-    res.status(200).send(products);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error retrieving all products');
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error retrieving products', error: error.message });
   }
 }
 
-// READ One Document by Id
+// Get product by ID
 async function getProduct(req, res) {
   try {
-    await client.connect();
-    const db = client.db();
-    const productId = new ObjectId(req.params.id);
-    const collection = db.collection('products');
-    const product = await collection.findOne({ _id: productId });
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
     if (!product) {
-      res.status(404).send('Product not found');
+      res.status(404).json({ message: 'Product not found' });
       return;
     }
-    res.json(product);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error retrieving product by Id');
+    res.status(200).json(product);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error retrieving product', error: error.message });
   }
 }
 
-// Create a new document
-async function addProduct(req, res) {
+// Create a new product
+async function createProduct(req, res) {
   try {
-    await client.connect();
-    const db = client.db();
-    const collection = db.collection('products');
-    const newDocument = {
-      //Create a new json object
-      productName: req.body.productName,
-      productDescription: req.body.productDescription,
-      productCost: req.body.productCost,
-      productTier: req.body.productTier,
-    };
-    const response = await collection.insertOne(newDocument); // insert the new object into the collection
-    res.status(201).json(response);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json('Error creating a new product');
+    const { productName, productDescription, productCost, productTier } =
+      req.body;
+
+    const newProduct = new Product({
+      productName,
+      productDescription,
+      productCost,
+      productTier,
+    });
+
+    const savedProduct = await newProduct.save();
+    res.status(201).json(savedProduct);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error creating product', error: error.message });
   }
 }
 
-// UPDATE an existing document
+// Update product by ID
 async function updateProduct(req, res) {
   try {
-    await client.connect();
-    const db = client.db();
-    const productId = new ObjectId(req.params.id);
-    const collection = db.collection('products');
-    const newDocument = {
-      //Create a new json object
+    const productId = req.params.id;
+    const updatedProduct = {
       productName: req.body.productName,
       productDescription: req.body.productDescription,
       productCost: req.body.productCost,
       productTier: req.body.productTier,
     };
-    const response = await collection.replaceOne(
-      { _id: productId },
-      newDocument
-    );
-    console.log(response);
-    if (response.modifiedCount > 0) {
-      res.status(204).send();
-    } else {
-      throw new Error('Document was not able to be updated');
+
+    const product = await Product.findByIdAndUpdate(productId, updatedProduct, {
+      new: true,
+    });
+
+    if (!product) {
+      res.status(404).json({ error: 'Product not found' });
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json('Error updating a product');
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating product' });
   }
 }
 
-// DELETE an existing document
-async function removeProduct(req, res) {
+// Delete product by ID
+async function deleteProduct(req, res) {
   try {
-    await client.connect();
-    const db = client.db();
-    const productId = new ObjectId(req.params.id);
-    const collection = db.collection('products');
-    const response = await collection.deleteOne({ _id: productId }, true);
-    console.log(response);
-    if (response.deletedCount > 0) {
-      res.status(200).send();
-    } else {
-      throw new Error('Document was not able to be deleted');
+    const productId = req.params.id;
+    const deletedProduct = await Product.findByIdAndDelete(productId);
+    if (!deletedProduct) {
+      res.status(404).json({ message: 'Product not found' });
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error deleting product');
+    res.status(200).json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error deleting product', error: error.message });
   }
 }
 
 module.exports = {
-  getProducts,
+  getAllProducts,
   getProduct,
-  addProduct,
+  createProduct,
   updateProduct,
-  removeProduct,
+  deleteProduct,
 };

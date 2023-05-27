@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const port = process.env.PORT || 3000;
 const app = express();
 
 // We need to use this in order to fetch from other local host
@@ -10,11 +11,28 @@ app.use(
   })
 );
 
-app.use(bodyParser.json());
-app.use('/', require('./routes')).use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  next();
-});
+app
+  .use(bodyParser.json())
+  .use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  })
+  .use('/', require('./routes'));
 
-app.listen(process.env.port || 3000);
-console.log('Web Server is listening at port ' + (process.env.port || 3000));
+// This is our call to the mongoose connection
+// We connect to mongodb through mongoose and console.log the connection message
+const db = require('./models');
+db.mongoose
+  .connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`DB Connected and server running on ${port}.`);
+    });
+  })
+  .catch((err) => {
+    console.log('Cannot connect to the database!', err);
+    process.exit();
+  });

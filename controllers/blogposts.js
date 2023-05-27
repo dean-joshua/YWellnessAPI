@@ -1,114 +1,104 @@
-const client = require('../db/connection.js');
-const { ObjectId } = require('mongodb');
+const BlogPost = require('../models/blogpost');
 
-// READ all documents
-async function getBlogposts(req, res) {
+// Get all blog posts
+async function getAllBlogPosts(req, res) {
   try {
-    await client.connect();
-    const db = client.db();
-    const collection = db.collection('blogposts');
-    const blogposts = await collection.find().toArray();
-    res.status(200).send(blogposts);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error retrieving all blogposts');
+    const blogPosts = await BlogPost.find();
+    res.status(200).json(blogPosts);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error retrieving blog posts', error: error.message });
   }
 }
 
-// READ One Document by Id
-async function getBlogpost(req, res) {
+// Get blog post by ID
+async function getBlogPost(req, res) {
   try {
-    await client.connect();
-    const db = client.db();
-    const blogpostId = new ObjectId(req.params.id);
-    const collection = db.collection('blogposts');
-    const blogpost = await collection.findOne({ _id: blogpostId });
-    if (!blogpost) {
-      res.status(404).send('Blog post not found');
+    const blogPostId = req.params.id;
+    const blogPost = await BlogPost.findById(blogPostId);
+    if (!blogPost) {
+      res.status(404).json({ message: 'Blog post not found' });
       return;
     }
-    res.json(blogpost);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error retrieving blog post by Id');
+    res.status(200).json(blogPost);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error retrieving blog post', error: error.message });
   }
 }
 
-// Create a new document
-async function addBlogpost(req, res) {
+// Create a new blog post
+async function createBlogPost(req, res) {
   try {
-    await client.connect();
-    const db = client.db();
-    const collection = db.collection('blogposts');
-    const newDocument = {
-      //Create a new json object
+    const { title, creationDate, sections, comments } = req.body;
+
+    const newBlogPost = new BlogPost({
+      title,
+      creationDate,
+      sections,
+      comments,
+    });
+
+    const savedBlogPost = await newBlogPost.save();
+    res.status(201).json(savedBlogPost);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error creating blog post', error: error.message });
+  }
+}
+
+// Update blog post by ID
+async function updateBlogPost(req, res) {
+  try {
+    const blogPostId = req.params.id;
+    const updatedBlogPost = {
       title: req.body.title,
       creationDate: req.body.creationDate,
       sections: req.body.sections,
       comments: req.body.comments,
     };
-    const response = await collection.insertOne(newDocument); // insert the new object into the collection
-    res.status(201).json(response);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json('Error creating a new blog post');
-  }
-}
 
-// UPDATE an existing document
-async function updateBlogpost(req, res) {
-  try {
-    await client.connect();
-    const db = client.db();
-    const blogpostId = new ObjectId(req.params.id);
-    const collection = db.collection('blogposts');
-    const newDocument = {
-      //Create a new json object
-      title: req.body.title,
-      creationDate: req.body.creationDate,
-      sections: req.body.sections,
-      comments: req.body.comments,
-    };
-    const response = await collection.replaceOne(
-      { _id: blogpostId },
-      newDocument
+    const blogPost = await BlogPost.findByIdAndUpdate(
+      blogPostId,
+      updatedBlogPost,
+      { new: true }
     );
-    console.log(response);
-    if (response.modifiedCount > 0) {
-      res.status(204).send();
-    } else {
-      throw new Error('Document was not able to be updated');
+
+    if (!blogPost) {
+      res.status(404).json({ error: 'Blog post not found' });
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json('Error updating a blog post');
+
+    res.status(200).json(blogPost);
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating blog post' });
   }
 }
 
-// DELETE an existing document
-async function removeBlogpost(req, res) {
+// Delete blog post by ID
+async function deleteBlogPost(req, res) {
   try {
-    await client.connect();
-    const db = client.db();
-    const blogpostId = new ObjectId(req.params.id);
-    const collection = db.collection('blogposts');
-    const response = await collection.deleteOne({ _id: blogpostId }, true);
-    console.log(response);
-    if (response.deletedCount > 0) {
-      res.status(200).send();
-    } else {
-      throw new Error('Document was not able to be deleted');
+    const blogPostId = req.params.id;
+    const deletedBlogPost = await BlogPost.findByIdAndDelete(blogPostId);
+    if (!deletedBlogPost) {
+      res.status(404).json({ message: 'Blog post not found' });
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error deleting blog post');
+    res.status(200).json({ message: 'Blog post deleted successfully' });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error deleting blog post', error: error.message });
   }
 }
 
 module.exports = {
-  getBlogposts,
-  getBlogpost,
-  addBlogpost,
-  updateBlogpost,
-  removeBlogpost,
+  getAllBlogPosts,
+  getBlogPost,
+  createBlogPost,
+  updateBlogPost,
+  deleteBlogPost,
 };
