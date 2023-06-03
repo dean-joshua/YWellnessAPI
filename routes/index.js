@@ -1,14 +1,16 @@
 const router = require('express').Router();
+const dotenv = require('dotenv'); // Using dotenv to get our mongodb uri
+dotenv.config();
 const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: 'a long, randomly-generated string stored in env',
-  baseURL: 'http://localhost:3000',
-  clientID: 'TqfwiNrRB7w4Sj0PF5exjMQ8bOF87UKw',
-  issuerBaseURL: 'https://dev-ympdmkgrv4tdk8hr.us.auth0.com',
+  secret: process.env.SECRET,
+  baseURL: process.env.BASE_URL,
+  clientID: process.env.CLIENT_ID,
+  issuerBaseURL: process.env.ISSUER_BASE_URL,
 };
 
 router.use(auth(config));
