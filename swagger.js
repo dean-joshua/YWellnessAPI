@@ -7,7 +7,7 @@ const doc = {
     title: 'YWellness API',
     description: 'An API designed for the YWellness website',
   },
-  host: 'localhost:3000',
+  host: 'ywellness-api-service.onrender.com',
   schemes: ['http', 'https'],
   securityDefinitions: {
     bearerAuth: {
