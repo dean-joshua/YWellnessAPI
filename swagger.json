@@ -5,13 +5,43 @@
     "description": "An API designed for the YWellness website",
     "version": "1.0.0"
   },
-  "host": "ywellness-api-service.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http",
     "https"
   ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://dev-ympdmkgrv4tdk8hr.us.auth0.com/authorize",
+      "flow": "implicit",
+      "scopes": {}
+    }
+  },
   "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api-docs": {
       "get": {
         "description": "",
@@ -122,8 +152,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           },
           "404": {
             "description": "Not Found"
@@ -259,8 +289,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           },
           "404": {
             "description": "Not Found"

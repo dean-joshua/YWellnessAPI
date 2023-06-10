@@ -1,4 +1,6 @@
 const swaggerAutogen = require('swagger-autogen')();
+const dotenv = require('dotenv'); // Using dotenv to get our mongodb uri
+dotenv.config();
 
 const doc = {
   info: {
@@ -7,6 +9,14 @@ const doc = {
   },
   host: 'localhost:3000',
   schemes: ['http', 'https'],
+  securityDefinitions: {
+    bearerAuth: {
+      type: 'oauth2',
+      authorizationUrl: `${process.env.ISSUER_BASE_URL}/authorize`,
+      flow: 'implicit',
+      scopes: {},
+    },
+  },
 };
 
 const outputFile = './swagger.json';
