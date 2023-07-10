@@ -6,6 +6,10 @@ router.get('/login', (req, res) => {
   res.oidc.login({ returnTo: '/callback' });
 });
 
+router.get('/profile', requiresAuth(), (req, res) => {
+  res.send(JSON.stringify(req.oidc.user));
+});
+
 router.get('/callback', async (req, res) => {
   try {
     const user = req.oidc.user;
