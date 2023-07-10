@@ -10,5 +10,6 @@ db.mongoose = mongoose;
 db.url = dbconfig.url;
 db.blogpost = require('./blogpost.js')(mongoose);
 db.product = require('./product.js')(mongoose);
+db.user = require('./users.js')(mongoose);
 
 module.exports = db;

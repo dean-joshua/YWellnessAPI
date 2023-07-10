@@ -32,12 +32,12 @@ async function getBlogPost(req, res) {
 // Create a new blog post
 async function createBlogPost(req, res) {
   try {
-    const { title, creationDate, sections, comments } = req.body;
+    const { title, creationDate, content, comments } = req.body;
 
     const newBlogPost = new BlogPost({
       title,
       creationDate,
-      sections,
+      content,
       comments,
     });
 
@@ -57,18 +57,11 @@ async function updateBlogPost(req, res) {
     const updatedBlogPost = {
       title: req.body.title,
       creationDate: req.body.creationDate,
-      sections: req.body.sections,
+      content: req.body.content,
       comments: req.body.comments,
     };
 
-    // Additional validation for sections and comments
-    if (
-      !Array.isArray(updatedBlogPost.sections) ||
-      !updatedBlogPost.sections.every((section) => typeof section === 'object')
-    ) {
-      throw new Error('Sections must be an array of objects');
-    }
-
+    // Additional validation for comments
     if (
       !Array.isArray(updatedBlogPost.comments) ||
       !updatedBlogPost.comments.every((comment) => typeof comment === 'object')

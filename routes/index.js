@@ -18,11 +18,12 @@ router.use(auth(config));
 router.get('/', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
-router.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
-});
+// router.get('/profile', requiresAuth(), (req, res) => {
+//   res.send(JSON.stringify(req.oidc.user));
+// });
 router.use('/', require('./swagger'));
 router.use('/blogposts', require('./blogposts'));
 router.use('/products', require('./products'));
+router.use('/user', require('./users'));
 
 module.exports = router;

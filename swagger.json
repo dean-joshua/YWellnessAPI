@@ -31,17 +31,6 @@
         }
       }
     },
-    "/profile": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api-docs": {
       "get": {
         "description": "",
@@ -77,7 +66,7 @@
                 "creationDate": {
                   "example": "any"
                 },
-                "sections": {
+                "content": {
                   "example": "any"
                 },
                 "comments": {
@@ -141,7 +130,7 @@
                 "creationDate": {
                   "example": "any"
                 },
-                "sections": {
+                "content": {
                   "example": "any"
                 },
                 "comments": {
@@ -310,6 +299,41 @@
             "type": "string"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/user/callback": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/profile": {
+      "get": {
+        "description": "",
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
