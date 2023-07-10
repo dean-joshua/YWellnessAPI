@@ -9,9 +9,9 @@ router.get('/login', (req, res) => {
 
 router.get('/callback', async (req, res) => {
   try {
+    console.log(req.oidc.user);
     const user = req.oidc.user;
     const { sub, given_name, name, email, picture } = user;
-    console.log(req.oidc.user);
 
     // Check if the user already exists in the database
     let existingUser = await User.findOne({ userId: sub });
@@ -43,7 +43,7 @@ router.get('/callback', async (req, res) => {
 router.get('/profile', async (req, res) => {
   try {
     console.log('Hi!');
-    const userId = req.oidc.user.email;
+    const userId = req.oidc.user.sub;
     console.log(req.oidc.user);
     const user = await User.findOne({ userId });
     if (user) {
