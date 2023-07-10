@@ -46,7 +46,7 @@ router.get('/profile/:email', async (req, res) => {
     const userId = req.oidc.user.sub;
     const userEmail = req.params.email;
     console.log(req.oidc.user);
-    const user = await User.findOne({ userEmail });
+    const user = await User.findOne({ email: userEmail });
     if (user) {
       res.json(user);
     } else {
