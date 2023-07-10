@@ -34,18 +34,19 @@ router.get('/callback', async (req, res) => {
         picture,
       });
     }
-    res.redirect('http://localhost:3000/profile');
+    res.redirect(`http://localhost:3000/profile/${email}`);
   } catch (error) {
     res.status(500).json({ error: error.message, message: 'Server error' });
   }
 });
 
-router.get('/profile', async (req, res) => {
+router.get('/profile/:email', async (req, res) => {
   try {
     console.log('Hi!');
     const userId = req.oidc.user.sub;
+    const userEmail = req.body.email;
     console.log(req.oidc.user);
-    const user = await User.findOne({ userId });
+    const user = await User.findOne({ userEmail });
     if (user) {
       res.json(user);
     } else {
