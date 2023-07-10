@@ -42,6 +42,7 @@ router.get('/callback', async (req, res) => {
 router.get('/profile', async (req, res) => {
   try {
     const userId = req.oidc.user.sub;
+    console.log(req.oidc.user.sub);
     const user = await User.findOne({ userId });
     if (user) {
       res.json(user);
