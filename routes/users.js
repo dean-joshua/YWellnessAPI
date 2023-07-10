@@ -9,7 +9,6 @@ router.get('/login', (req, res) => {
 
 router.get('/callback', async (req, res) => {
   try {
-    console.log(req.oidc.user);
     const user = req.oidc.user;
     const { sub, given_name, name, email, picture } = user;
 
@@ -43,9 +42,9 @@ router.get('/callback', async (req, res) => {
 router.get('/profile/:email', async (req, res) => {
   try {
     console.log('Hi!');
-    const userId = req.oidc.user.sub;
+    const users = req.oidc.user;
+    console.log(users);
     const userEmail = req.params.email;
-    console.log(req.oidc.user);
     const user = await User.findOne({ email: userEmail });
     if (user) {
       res.json(user);
