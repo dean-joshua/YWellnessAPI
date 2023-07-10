@@ -39,7 +39,7 @@ router.get('/callback', async (req, res) => {
   }
 });
 
-router.get('/profile', requiresAuth(), async (req, res) => {
+router.get('/profile', async (req, res) => {
   try {
     const userId = req.oidc.user.sub;
     const user = await User.findOne({ userId });
