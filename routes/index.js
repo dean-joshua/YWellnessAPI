@@ -13,7 +13,7 @@ const config = {
   clientID: process.env.CLIENT_ID,
   issuerBaseURL: process.env.ISSUER_BASE_URL,
   routes: {
-    callback: '/callback', // Specify your custom callback URL here
+    callback: '/custom-callback', // Specify your custom callback URL here
   },
 };
 
@@ -24,10 +24,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  res.oidc.login({ returnTo: '/callback' });
+  res.oidc.login({ returnTo: '/custom-callback' });
 });
 
-router.get('/callback', async (req, res) => {
+router.get('/custom-callback', async (req, res) => {
   try {
     const user = req.oidc.user;
     const { sub, given_name, name, email, picture } = user;
