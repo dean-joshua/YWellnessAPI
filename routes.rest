@@ -1,4 +1,5 @@
 // LOCALHOST
+GET https://ywellness-api-service.onrender.com/user/callback
 
 // Products
 ### GET all

@@ -35,12 +35,13 @@ router.get('/callback', async (req, res) => {
     }
     res.redirect('http://localhost:3000/profile');
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ error: error.message, message: 'Server error' });
   }
 });
 
 router.get('/profile', async (req, res) => {
   try {
+    console.log('Hi!');
     const userId = req.oidc.user.sub;
     console.log(req.oidc.user.sub);
     const user = await User.findOne({ userId });
@@ -50,7 +51,7 @@ router.get('/profile', async (req, res) => {
       res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ error: error.message, message: 'Server error' });
   }
 });
 
