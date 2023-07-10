@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/users');
+const { requiresAuth } = require('express-openid-connect');
 
 router.get('/login', (req, res) => {
   res.oidc.login({ returnTo: '/callback' });
-});
-
-router.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
 });
 
 router.get('/callback', async (req, res) => {
@@ -43,7 +40,7 @@ router.get('/callback', async (req, res) => {
   }
 });
 
-router.get('/profile', async (req, res) => {
+router.get('/profile', requiresAuth(), async (req, res) => {
   try {
     const userId = req.oidc.user.sub;
     const user = await User.findOne({ userId });
