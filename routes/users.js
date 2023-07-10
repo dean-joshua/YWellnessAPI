@@ -40,7 +40,7 @@ router.get('/callback', async (req, res) => {
 });
 
 router.get('/profile', (req, res) => {
-  res.json(req.oidc.user);
+  res.json(req.oidc);
 });
 
 router.get('/profile/:email', async (req, res) => {
