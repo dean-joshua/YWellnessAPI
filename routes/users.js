@@ -33,7 +33,7 @@ router.get('/callback', async (req, res) => {
         picture,
       });
     }
-    res.redirect('/user/profile');
+    res.redirect('http://localhost:3000/profile');
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
