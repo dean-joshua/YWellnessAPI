@@ -21,6 +21,7 @@ router.get('/callback', async (req, res) => {
       existingUser.name = name;
       existingUser.email = email;
       existingUser.picture = picture;
+      console.log('I got here');
 
       await existingUser.save();
     } else {
@@ -32,8 +33,10 @@ router.get('/callback', async (req, res) => {
         email,
         picture,
       });
+      console.log('Nah I got here');
     }
 
+    console.log('Actually I got here');
     res.redirect('/profile');
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
