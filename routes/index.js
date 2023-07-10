@@ -12,9 +12,6 @@ const config = {
   baseURL: process.env.BASE_URL,
   clientID: process.env.CLIENT_ID,
   issuerBaseURL: process.env.ISSUER_BASE_URL,
-  routes: {
-    callback: '/custom-callback', // Specify your custom callback URL here
-  },
 };
 
 router.use(auth(config));
