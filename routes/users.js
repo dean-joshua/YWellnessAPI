@@ -39,6 +39,10 @@ router.get('/callback', async (req, res) => {
   }
 });
 
+router.get('/profile', (req, res) => {
+  res.send(req.oidc.user.sub);
+});
+
 router.get('/profile/:email', async (req, res) => {
   try {
     console.log('Hi!');
