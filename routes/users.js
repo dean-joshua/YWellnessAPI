@@ -4,7 +4,7 @@ const User = require('../models/users');
 const { requiresAuth } = require('express-openid-connect');
 
 router.get('/login', (req, res) => {
-  res.oidc.login({ returnTo: '/callback' });
+  res.oidc.login({ returnTo: '/user/callback' });
 });
 
 router.get('/callback', async (req, res) => {
@@ -37,7 +37,7 @@ router.get('/callback', async (req, res) => {
     }
 
     console.log('Actually I got here');
-    res.redirect('/profile');
+    res.redirect('/user/profile');
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
