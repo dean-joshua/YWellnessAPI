@@ -2,13 +2,17 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   userId: String,
-  given_name: String,
-  name: String,
+  firstName: String,
+  lastName: String,
+  birthDate: Date,
   email: String,
+  phone: String,
   picture: String,
+  age: Number,
   weight: Number,
   height: String,
   goal: String,
+  yourWhy: String,
 });
 
 const User = mongoose.model('User', userSchema);

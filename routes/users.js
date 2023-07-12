@@ -3,60 +3,82 @@ const router = express.Router();
 const User = require('../models/users');
 const { requiresAuth } = require('express-openid-connect');
 
-router.get('/login', (req, res) => {
-  res.oidc.login({ returnTo: '/user/callback' });
-});
+router.get('/:userId', async (req, res) => {
+  const { userId } = req.params;
 
-router.get('/callback', async (req, res) => {
   try {
-    const user = req.oidc.user;
-    const { sub, given_name, name, email, picture } = user;
+    const user = await User.findOne({ userId: userId });
 
-    // Check if the user already exists in the database
-    let existingUser = await User.findOne({ userId: sub });
-
-    if (existingUser) {
-      // Update the existing user data
-      existingUser.given_name = given_name;
-      existingUser.name = name;
-      existingUser.email = email;
-      existingUser.picture = picture;
-
-      await existingUser.save();
-    } else {
-      // Create a new user in the database
-      await User.create({
-        userId: sub,
-        given_name,
-        name,
-        email,
-        picture,
-      });
+    if (!user) {
+      console.log('User not found');
+      return res.sendStatus(404);
     }
-    res.redirect(`http://localhost:3000/profile/${email}`);
+
+    res.json(user); // Send the user data as a JSON response
   } catch (error) {
-    res.status(500).json({ error: error.message, message: 'Server error' });
+    console.error('Error retrieving user:', error);
+    res.sendStatus(500);
   }
 });
 
-router.get('/profile', requiresAuth(), (req, res) => {
-  res.json(req.oidc.user);
-});
+// Route to handle user creation
+router.post('/', async (req, res) => {
+  const {
+    userId,
+    firstName,
+    lastName,
+    birthDate,
+    email,
+    phone,
+    age,
+    weight,
+    height,
+    goal,
+    yourWhy,
+  } = req.body;
 
-router.get('/profile/:email', async (req, res) => {
   try {
-    console.log('Hi!');
-    const users = req.oidc.user;
-    console.log(users);
-    const userEmail = req.params.email;
-    const user = await User.findOne({ email: userEmail });
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ message: 'User not found' });
+    // Check if the user already exists in the database
+    const existingUser = await User.findOne({ userId: userId });
+
+    if (existingUser) {
+      existingUser.firstName = firstName;
+      existingUser.lastName = lastName;
+      existingUser.birthDate = birthDate;
+      existingUser.email = email;
+      existingUser.phone = phone;
+      existingUser.age = age;
+      existingUser.weight = weight;
+      existingUser.height = height;
+      existingUser.goal = goal;
+      existingUser.yourWhy = yourWhy;
+
+      await existingUser.save();
+      console.log('User already exists');
+      return res.sendStatus(200); // Send a success response if the user already exists
     }
+
+    // Create a new user
+    const newUser = new User({
+      userId,
+      firstName,
+      lastName,
+      birthDate,
+      email,
+      phone,
+      age,
+      weight,
+      height,
+      goal,
+      yourWhy,
+    });
+    await newUser.save();
+    console.log('User created successfully');
+
+    res.sendStatus(201); // Send a success response if the new user is created
   } catch (error) {
-    res.status(500).json({ error: error.message, message: 'Server error' });
+    console.error('Error creating user:', error);
+    res.sendStatus(500); // Send an error response if an error occurs during user creation
   }
 });
 

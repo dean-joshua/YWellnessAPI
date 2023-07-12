@@ -8,7 +8,8 @@ const commentSchema = mongoose.Schema({
 const blogPostSchema = mongoose.Schema({
   title: String,
   creationDate: Date,
-  content: String,
+  image: String,
+  content: [String],
   comments: [commentSchema],
 });
 
