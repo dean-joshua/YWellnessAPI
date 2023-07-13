@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
     height,
     goal,
     yourWhy,
-  } = req.params;
+  } = req.body;
 
   try {
     // Check if the user already exists in the database
