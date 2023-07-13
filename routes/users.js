@@ -3,6 +3,17 @@ const router = express.Router();
 const User = require('../models/users');
 const { requiresAuth } = require('express-openid-connect');
 
+router.get('/', async (req, res) => {
+  try {
+    const user = await User.find();
+    res.status(200).json(user);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error retrieving blog posts', error: error.message });
+  }
+});
+
 router.get('/:userId', async (req, res) => {
   const { userId } = req.params;
 
