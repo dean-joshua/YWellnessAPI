@@ -72,15 +72,13 @@ router.post('/', async (req, res) => {
       goal,
       yourWhy,
     });
-    await newUser.create();
+    await newUser.save();
     console.log('User created successfully');
 
     res.sendStatus(201); // Send a success response if the new user is created
   } catch (error) {
     console.error('Error creating user:', error);
-    res
-      .sendStatus(500)
-      .send({ message: 'error with user', err: error.message }); // Send an error response if an error occurs during user creation
+    res.status(500).send({ message: 'error with user', err: error.message }); // Send an error response if an error occurs during user creation
   }
 });
 
