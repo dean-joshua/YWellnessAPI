@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
     height,
     goal,
     yourWhy,
-  } = req.body;
+  } = req.params;
 
   try {
     // Check if the user already exists in the database
@@ -72,7 +72,7 @@ router.post('/', async (req, res) => {
       goal,
       yourWhy,
     });
-    await newUser.save();
+    await newUser.create();
     console.log('User created successfully');
 
     res.sendStatus(201); // Send a success response if the new user is created
