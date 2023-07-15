@@ -2,6 +2,7 @@ const Product = require('../models/product');
 
 // Get all products
 async function getAllProducts(req, res) {
+  // #swagger.tags= ['Products']
   try {
     const products = await Product.find();
     res.status(200).json(products);
@@ -14,6 +15,7 @@ async function getAllProducts(req, res) {
 
 // Get product by ID
 async function getProduct(req, res) {
+  // #swagger.tags= ['Products']
   try {
     const productId = req.params.id;
     const product = await Product.findById(productId);
@@ -31,6 +33,7 @@ async function getProduct(req, res) {
 
 // Create a new product
 async function createProduct(req, res) {
+  // #swagger.tags= ['Products']
   try {
     const { productName, productDescription, productCost, productTier } =
       req.body;
@@ -53,6 +56,7 @@ async function createProduct(req, res) {
 
 // Update product by ID
 async function updateProduct(req, res) {
+  // #swagger.tags= ['Products']
   try {
     const productId = req.params.id;
     const updatedProduct = {
@@ -79,6 +83,7 @@ async function updateProduct(req, res) {
 
 // Delete product by ID
 async function deleteProduct(req, res) {
+  // #swagger.tags= ['Products']
   try {
     const productId = req.params.id;
     const deletedProduct = await Product.findByIdAndDelete(productId);

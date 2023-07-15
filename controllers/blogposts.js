@@ -2,6 +2,7 @@ const BlogPost = require('../models/blogpost');
 
 // Get all blog posts
 async function getAllBlogPosts(req, res) {
+  // #swagger.tags= ['Blogs']
   try {
     const blogPosts = await BlogPost.find();
     res.status(200).json(blogPosts);
@@ -14,6 +15,7 @@ async function getAllBlogPosts(req, res) {
 
 // Get blog post by ID
 async function getBlogPost(req, res) {
+  // #swagger.tags= ['Blogs']
   try {
     const blogPostId = req.params.id;
     const blogPost = await BlogPost.findById(blogPostId);
@@ -31,6 +33,7 @@ async function getBlogPost(req, res) {
 
 // Create a new blog post
 async function createBlogPost(req, res) {
+  // #swagger.tags= ['Blogs']
   try {
     const { title, creationDate, content, comments } = req.body;
 
@@ -52,6 +55,7 @@ async function createBlogPost(req, res) {
 
 // Update blog post by ID
 async function updateBlogPost(req, res) {
+  // #swagger.tags= ['Blogs']
   try {
     const blogPostId = req.params.id;
     const updatedBlogPost = {
@@ -90,6 +94,7 @@ async function updateBlogPost(req, res) {
 
 // Delete blog post by ID
 async function deleteBlogPost(req, res) {
+  // #swagger.tags= ['Blogs']
   try {
     const blogPostId = req.params.id;
     const deletedBlogPost = await BlogPost.findByIdAndDelete(blogPostId);

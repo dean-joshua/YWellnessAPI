@@ -22,6 +22,9 @@
   "paths": {
     "/": {
       "get": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "parameters": [],
         "responses": {
@@ -40,6 +43,9 @@
     },
     "/blogposts/": {
       "get": {
+        "tags": [
+          "Blogs"
+        ],
         "description": "",
         "parameters": [],
         "responses": {
@@ -52,6 +58,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Blogs"
+        ],
         "description": "",
         "parameters": [
           {
@@ -88,6 +97,9 @@
     },
     "/blogposts/{id}": {
       "get": {
+        "tags": [
+          "Blogs"
+        ],
         "description": "",
         "parameters": [
           {
@@ -110,6 +122,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Blogs"
+        ],
         "description": "",
         "parameters": [
           {
@@ -153,6 +168,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Blogs"
+        ],
         "description": "",
         "parameters": [
           {
@@ -177,6 +195,9 @@
     },
     "/products/": {
       "get": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
         "parameters": [],
         "responses": {
@@ -189,6 +210,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
         "parameters": [
           {
@@ -225,6 +249,9 @@
     },
     "/products/{id}": {
       "get": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
         "parameters": [
           {
@@ -247,6 +274,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
         "parameters": [
           {
@@ -290,6 +320,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Products"
+        ],
         "description": "",
         "parameters": [
           {
@@ -314,6 +347,9 @@
     },
     "/user/": {
       "get": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [],
         "responses": {
@@ -326,6 +362,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -343,16 +382,10 @@
                 "lastName": {
                   "example": "any"
                 },
-                "birthDate": {
-                  "example": "any"
-                },
                 "email": {
                   "example": "any"
                 },
-                "phone": {
-                  "example": "any"
-                },
-                "age": {
+                "goal": {
                   "example": "any"
                 },
                 "weight": {
@@ -361,7 +394,7 @@
                 "height": {
                   "example": "any"
                 },
-                "goal": {
+                "age": {
                   "example": "any"
                 },
                 "yourWhy": {
@@ -386,6 +419,9 @@
     },
     "/user/{userId}": {
       "get": {
+        "tags": [
+          "Users"
+        ],
         "description": "",
         "parameters": [
           {
@@ -398,9 +434,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"

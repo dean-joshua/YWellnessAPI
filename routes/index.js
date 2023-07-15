@@ -17,6 +17,7 @@ const config = {
 router.use(auth(config));
 
 router.get('/', (req, res) => {
+  // #swagger.tags= ['Auth']
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
 

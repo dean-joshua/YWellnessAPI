@@ -4,6 +4,7 @@ const User = require('../models/users');
 const { requiresAuth } = require('express-openid-connect');
 
 router.get('/', async (req, res) => {
+  // #swagger.tags= ['Users']
   try {
     const user = await User.find();
     res.status(200).json(user);
@@ -15,6 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:userId', async (req, res) => {
+  // #swagger.tags= ['Users']
   const { userId } = req.params;
 
   try {
@@ -34,6 +36,7 @@ router.get('/:userId', async (req, res) => {
 
 // Route to handle user creation
 router.post('/', async (req, res) => {
+  // #swagger.tags= ['Users']
   const {
     userId,
     firstName,
@@ -53,9 +56,7 @@ router.post('/', async (req, res) => {
     if (existingUser) {
       existingUser.firstName = firstName;
       existingUser.lastName = lastName;
-      existingUser.birthDate = birthDate;
       existingUser.email = email;
-      existingUser.phone = phone;
       existingUser.age = age;
       existingUser.weight = weight;
       existingUser.height = height;
@@ -72,9 +73,7 @@ router.post('/', async (req, res) => {
       userId,
       firstName,
       lastName,
-      birthDate,
       email,
-      phone,
       age,
       weight,
       height,
