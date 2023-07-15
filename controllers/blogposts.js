@@ -1,4 +1,5 @@
 const BlogPost = require('../models/blogpost');
+const { body, param, validationResult } = require('express-validator');
 
 // Get all blog posts
 async function getAllBlogPosts(req, res) {
@@ -31,10 +32,36 @@ async function getBlogPost(req, res) {
   }
 }
 
+// Sanitization and validation for creating a new blog post
+const createBlogPostValidationRules = [
+  body('title').trim().escape(),
+  body('creationDate').toDate(),
+  body('content').trim().escape(),
+  body('comments')
+    .isArray()
+    .customSanitizer((value) => {
+      // Custom sanitization for comments array
+      return value.map((comment) => ({
+        commentDate: comment.commentDate,
+        commentBody: comment.commentBody.trim().escape(),
+      }));
+    }),
+];
+
 // Create a new blog post
 async function createBlogPost(req, res) {
   // #swagger.tags= ['Blogs']
   try {
+    // Validate and sanitize the request
+    await Promise.all(
+      createBlogPostValidationRules.map((rule) => rule.run(req))
+    );
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { title, creationDate, content, comments } = req.body;
 
     const newBlogPost = new BlogPost({
@@ -53,10 +80,37 @@ async function createBlogPost(req, res) {
   }
 }
 
+// Sanitization and validation for updating blog post
+const updateBlogPostValidationRules = [
+  param('id').trim().escape(),
+  body('title').trim().escape(),
+  body('creationDate').toDate(),
+  body('content').trim().escape(),
+  body('comments')
+    .isArray()
+    .customSanitizer((value) => {
+      // Custom sanitization for comments array
+      return value.map((comment) => ({
+        commentDate: comment.commentDate,
+        commentBody: comment.commentBody.trim().escape(),
+      }));
+    }),
+];
+
 // Update blog post by ID
 async function updateBlogPost(req, res) {
   // #swagger.tags= ['Blogs']
   try {
+    // Validate and sanitize the request
+    await Promise.all(
+      updateBlogPostValidationRules.map((rule) => rule.run(req))
+    );
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const blogPostId = req.params.id;
     const updatedBlogPost = {
       title: req.body.title,
