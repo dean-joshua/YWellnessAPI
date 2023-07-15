@@ -38,9 +38,13 @@ const createBlogPostValidationRules = [
   body('creationDate').toDate(),
   body('content')
     .isArray()
-    .customSanitizer((value) => {
-      // Custom sanitization for content array
-      return value.map((item) => item.trim().escape());
+    .custom((value) => {
+      if (!Array.isArray(value)) {
+        throw new Error('Content must be an array');
+      }
+      // Custom sanitization for each item in the content array
+      const sanitizedContent = value.map((item) => item.trim().escape());
+      return sanitizedContent;
     }),
   body('comments')
     .isArray()
@@ -92,9 +96,13 @@ const updateBlogPostValidationRules = [
   body('creationDate').toDate(),
   body('content')
     .isArray()
-    .customSanitizer((value) => {
-      // Custom sanitization for content array
-      return value.map((item) => item.trim().escape());
+    .custom((value) => {
+      if (!Array.isArray(value)) {
+        throw new Error('Content must be an array');
+      }
+      // Custom sanitization for each item in the content array
+      const sanitizedContent = value.map((item) => item.trim().escape());
+      return sanitizedContent;
     }),
   body('comments')
     .isArray()
@@ -128,6 +136,10 @@ async function updateBlogPost(req, res) {
       content: req.body.content,
       comments: req.body.comments,
     };
+
+    if (!Array.isArray(updatedBlogPost.content)) {
+      throw new Error('Content must be an array');
+    }
 
     // Additional validation for comments
     if (
