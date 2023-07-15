@@ -22,7 +22,7 @@ router.get('/:userId', async (req, res) => {
 
     if (!user) {
       console.log('User not found');
-      return res.sendStatus(404);
+      return res.status(200).status('This user has not set up an account yet');
     }
 
     res.json(user); // Send the user data as a JSON response
@@ -38,13 +38,11 @@ router.post('/', async (req, res) => {
     userId,
     firstName,
     lastName,
-    birthDate,
     email,
-    phone,
-    age,
+    goal,
     weight,
     height,
-    goal,
+    age,
     yourWhy,
   } = req.body;
 
