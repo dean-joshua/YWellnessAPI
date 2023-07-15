@@ -46,7 +46,7 @@ router.post(
     body('email').trim().escape().isEmail(),
     body('goal').trim().escape(),
     body('weight').trim().escape().isFloat(),
-    body('height').trim().escape().isFloat(),
+    body('height').trim().escape(),
     body('age').trim().escape().isInt(),
     body('yourWhy').trim().escape(),
   ],

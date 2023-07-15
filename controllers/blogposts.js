@@ -36,7 +36,12 @@ async function getBlogPost(req, res) {
 const createBlogPostValidationRules = [
   body('title').trim().escape(),
   body('creationDate').toDate(),
-  body('content').trim().escape(),
+  body('content')
+    .isArray()
+    .customSanitizer((value) => {
+      // Custom sanitization for content array
+      return value.map((item) => item.trim().escape());
+    }),
   body('comments')
     .isArray()
     .customSanitizer((value) => {
@@ -85,7 +90,12 @@ const updateBlogPostValidationRules = [
   param('id').trim().escape(),
   body('title').trim().escape(),
   body('creationDate').toDate(),
-  body('content').trim().escape(),
+  body('content')
+    .isArray()
+    .customSanitizer((value) => {
+      // Custom sanitization for content array
+      return value.map((item) => item.trim().escape());
+    }),
   body('comments')
     .isArray()
     .customSanitizer((value) => {
