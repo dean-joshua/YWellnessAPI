@@ -38,13 +38,9 @@ const createBlogPostValidationRules = [
   body('creationDate').toDate(),
   body('content')
     .isArray()
-    .custom((value) => {
-      if (!Array.isArray(value)) {
-        throw new Error('Content must be an array');
-      }
+    .customSanitizer((value) => {
       // Custom sanitization for each item in the content array
-      const sanitizedContent = value.map((item) => item.trim().escape());
-      return sanitizedContent;
+      return value.map((item) => item.trim());
     }),
   body('comments')
     .isArray()
@@ -96,13 +92,9 @@ const updateBlogPostValidationRules = [
   body('creationDate').toDate(),
   body('content')
     .isArray()
-    .custom((value) => {
-      if (!Array.isArray(value)) {
-        throw new Error('Content must be an array');
-      }
+    .customSanitizer((value) => {
       // Custom sanitization for each item in the content array
-      const sanitizedContent = value.map((item) => item.trim().escape());
-      return sanitizedContent;
+      return value.map((item) => item.trim());
     }),
   body('comments')
     .isArray()
