@@ -48,7 +48,7 @@ const createBlogPostValidationRules = [
       // Custom sanitization for comments array
       return value.map((comment) => ({
         commentDate: comment.commentDate,
-        commentBody: comment.commentBody.trim().escape(),
+        commentBody: comment.commentBody.trim(),
       }));
     }),
 ];
